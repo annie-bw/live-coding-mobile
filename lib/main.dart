@@ -33,6 +33,10 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
     super.dispose();
   }
 
+  bool ml = true;
+  bool fullStack = true;
+  bool mobile = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +141,55 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                   ),
                 ),
               ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Courses'),
+
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: ml,
+                        onChanged: (value) {
+                          setState(() {
+                            ml = value!;
+                          });
+                        },
+                      ),
+                      Text('Machine Learning'),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: fullStack,
+                        onChanged: (value) {
+                          setState(() {
+                            fullStack = value!;
+                          });
+                        },
+                      ),
+                      Text('Full stack'),
+                    ],
+                  ),
+
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: mobile,
+                        onChanged: (value) {
+                          setState(() {
+                            mobile = value!;
+                          });
+                        },
+                      ),
+                      Text('Mobile application'),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -144,5 +197,3 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
     );
   }
 }
-
-
