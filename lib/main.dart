@@ -14,6 +14,25 @@ class LiveDemoForm extends StatefulWidget {
 }
 
 class _LiveDemoFormState extends State<LiveDemoForm> {
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
+
+  void _clearForm(){
+    setState(() {
+      _usernameController.clear();
+      _passwordController.clear();
+    });
+  }
+
+  void dispose(){
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,11 +50,91 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                 color: Colors.white,
                 padding:EdgeInsets.symmetric(vertical: 30),
                 child: Center(
-                  child: Text('Room 8',
+                  child: Text('Welcome:)',
                       style: TextStyle(
                           fontSize: 24,
                         fontWeight: FontWeight.bold,
                       )),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            width: 90,
+                            child: Padding(
+                                padding: EdgeInsets.only(top: 12.0),
+                                child: Text('Username',
+                                style:TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                ),
+                            ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _usernameController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color(0xFFEEEEEE),
+                                border: InputBorder.none,
+                                helperText:'Username must be 10 char long',
+                                helperStyle: TextStyle(color: Colors.red, fontSize: 10),
+                                isDense: true,
+                              ),
+                              validator: (val) => (val == null || val.length < 10) ? 'Too short' : null,
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 90,
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 12.0),
+                              child: Text('Password', style: TextStyle(fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller:_passwordController,
+                              obscureText: _obscurePassword,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color(0xFFEEEEEE),
+                                border: InputBorder.none,
+                                helperText: 'Password must be 8 char long',
+                                helperStyle: TextStyle(color: Colors.red, fontSize: 10),
+                                isDense: true,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
