@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'widgets/form_buttons.dart';
+import 'widgets/tuition_slider.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -27,6 +29,7 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
     });
   }
 
+  @override
   void dispose(){
     _usernameController.dispose();
     _passwordController.dispose();
@@ -36,6 +39,9 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
   bool ml = true;
   bool fullStack = true;
   bool mobile = false;
+
+  // TODO(sex): add the sex field state here, e.g. `String? _sex;`
+  double _tuition = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -137,58 +143,88 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                           ),
                         ],
                       ),
+
+                      const SizedBox(height: 10),
+
+                      // TODO(sex): replace this placeholder with the Sex radio buttons (Male / Female)
+                      const Text('Sex', style: TextStyle(fontWeight: FontWeight.bold)),
+
+                      const SizedBox(height: 10),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Courses'),
+
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: ml,
+                                onChanged: (value) {
+                                  setState(() {
+                                    ml = value!;
+                                  });
+                                },
+                              ),
+                              Text('Machine Learning'),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: fullStack,
+                                onChanged: (value) {
+                                  setState(() {
+                                    fullStack = value!;
+                                  });
+                                },
+                              ),
+                              Text('Full stack'),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: mobile,
+                                onChanged: (value) {
+                                  setState(() {
+                                    mobile = value!;
+                                  });
+                                },
+                              ),
+                              Text('Mobile application'),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      TuitionSlider(
+                        value: _tuition,
+                        onChanged: (v) => setState(() => _tuition = v),
+                      ),
+                      const SizedBox(height: 16),
+                      FormButtons(
+                        isFormComplete: () =>
+                            _formKey.currentState!.validate() &&
+                            // TODO(sex): add `_sex != null &&` here
+                            (ml || fullStack || mobile) && _tuition > 0,
+                        onClear: () {
+                          _formKey.currentState!.reset();
+                          _clearForm();
+                          setState(() {
+                            // TODO(sex): reset the sex field here, e.g. `_sex = null;`
+                            ml = fullStack = mobile = false;
+                            _tuition = 0;
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Courses'),
-
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: ml,
-                        onChanged: (value) {
-                          setState(() {
-                            ml = value!;
-                          });
-                        },
-                      ),
-                      Text('Machine Learning'),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: fullStack,
-                        onChanged: (value) {
-                          setState(() {
-                            fullStack = value!;
-                          });
-                        },
-                      ),
-                      Text('Full stack'),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: mobile,
-                        onChanged: (value) {
-                          setState(() {
-                            mobile = value!;
-                          });
-                        },
-                      ),
-                      Text('Mobile application'),
-                    ],
-                  ),
-                ],
               ),
             ],
           ),
