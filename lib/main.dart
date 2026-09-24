@@ -40,7 +40,7 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
   bool fullStack = true;
   bool mobile = false;
 
-  // TODO(sex): add the sex field state here, e.g. `String? _sex;`
+  String? _sex;
   double _tuition = 0;
 
   @override
@@ -146,8 +146,27 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
 
                       const SizedBox(height: 10),
 
-                      // TODO(sex): replace this placeholder with the Sex radio buttons (Male / Female)
-                      const Text('Sex', style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                        children: [
+                          const SizedBox(
+                            width: 90,
+                            child: Text('Sex', style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                          RadioGroup<String>(
+                            groupValue: _sex,
+                            onChanged: (value) => setState(() => _sex = value),
+                            child: const Row(
+                              children: [
+                                Radio<String>(value: 'Male'),
+                                Text('Male'),
+                                SizedBox(width: 16),
+                                Radio<String>(value: 'Female'),
+                                Text('Female'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
 
                       const SizedBox(height: 10),
 
@@ -210,13 +229,13 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                       FormButtons(
                         isFormComplete: () =>
                             _formKey.currentState!.validate() &&
-                            // TODO(sex): add `_sex != null &&` here
+                            _sex != null &&
                             (ml || fullStack || mobile) && _tuition > 0,
                         onClear: () {
                           _formKey.currentState!.reset();
                           _clearForm();
                           setState(() {
-                            // TODO(sex): reset the sex field here, e.g. `_sex = null;`
+                            _sex = null;
                             ml = fullStack = mobile = false;
                             _tuition = 0;
                           });

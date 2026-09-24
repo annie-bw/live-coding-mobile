@@ -18,6 +18,7 @@ void main() {
     // Verify the AppBar, fields, slider and buttons are on screen.
     expect(find.text('Room 8'), findsOneWidget);
     expect(find.byType(TextFormField), findsNWidgets(2));
+    expect(find.byType(Radio<String>), findsNWidgets(2));
     expect(find.byType(Checkbox), findsNWidgets(3));
     expect(find.byType(Slider), findsOneWidget);
     expect(find.text('Submit'), findsOneWidget);
