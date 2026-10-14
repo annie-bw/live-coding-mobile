@@ -119,13 +119,13 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                           ),
                           Expanded(
                             child: TextFormField(
-                              controller:_passwordController,
+                              controller: _passwordController,
                               obscureText: _obscurePassword,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Color(0xFFEEEEEE),
                                 border: InputBorder.none,
-                                helperText: 'Password must be 8 char long',
+                                helperText: 'Password must be 8 chars, 1 uppercase and 1 number',
                                 helperStyle: TextStyle(color: Colors.red, fontSize: 10),
                                 isDense: true,
                                 suffixIcon: IconButton(
@@ -139,6 +139,13 @@ class _LiveDemoFormState extends State<LiveDemoForm> {
                                   },
                                 ),
                               ),
+                              validator: (val) {
+                                final passwordRegex = RegExp(r'^(?=.*[A-Z])(?=.*\d).{8,}$');
+                                if (val == null || !passwordRegex.hasMatch(val)) {
+                                  return 'Invalid password!';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         ],
